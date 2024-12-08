@@ -18,4 +18,5 @@ abstract class AppText {
   static const String addTask = 'Add';
   static const String account = 'Account';
   static const String logout = 'Logout';
+  static const String today = 'Today';
 }

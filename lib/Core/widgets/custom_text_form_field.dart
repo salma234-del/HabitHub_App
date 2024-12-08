@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/Core/utils/functions/empty_validator.dart';
 import 'package:todo/Core/utils/global/theme/app_color/app_color.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -35,6 +36,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           child: TextFormField(
             controller: controller,
+            validator: emptyValidator,
             decoration: InputDecoration(
               isDense: true,
               hintText: hintText,
