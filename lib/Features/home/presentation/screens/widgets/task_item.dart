@@ -73,25 +73,25 @@ class TaskItem extends StatelessWidget {
       ],
       child: Dismissible(
         key: Key(index.toString()),
-        onDismissed: (direction) {
+        onDismissed: (direction) async {
           if (categoryIndex == 0) {
             if (direction == DismissDirection.startToEnd) {
               // delete task
-              BlocProvider.of<DeleteTaskCubit>(context).deleteTask(
+              await BlocProvider.of<DeleteTaskCubit>(context).deleteTask(
                 categoryIndex: categoryIndex,
                 taskIndex: index,
                 task: task,
               );
             } else {
               // done task
-              BlocProvider.of<DoneTaskCubit>(context).doneTask(
+              await BlocProvider.of<DoneTaskCubit>(context).doneTask(
                 categoryIndex: categoryIndex,
                 taskIndex: index,
                 task: task,
               );
             }
           } else {
-            BlocProvider.of<UpdateTaskCubit>(context).updateTask(
+            await BlocProvider.of<UpdateTaskCubit>(context).updateTask(
               categoryIndex: categoryIndex,
               taskIndex: index,
               task: task,
