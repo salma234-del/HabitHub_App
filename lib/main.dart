@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,9 +9,13 @@ import 'package:todo/Core/utils/constants.dart';
 import 'package:todo/Core/utils/global/theme/theme_data/app_theme.dart';
 import 'package:todo/Features/home/data/models/task_category_model.dart';
 import 'package:todo/Features/home/data/models/task_model.dart';
+import 'package:todo/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Hive.initFlutter();
   await Hive.openBox(tasksCategoriesBox);
   Hive.registerAdapter(TaskCategoryModelAdapter());

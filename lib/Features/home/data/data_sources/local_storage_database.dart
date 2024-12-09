@@ -38,7 +38,7 @@ class LocalStorageDataBase implements HomeRepo {
 
   @override
   Future<void> deleteTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   }) async {
@@ -52,6 +52,9 @@ class LocalStorageDataBase implements HomeRepo {
         .toList();
 
     // Remove the task from the specified category.
+    int categoryIndex =
+        categories.indexWhere((element) => element.category == category);
+
     categories[categoryIndex].data.removeAt(taskIndex);
 
     // Add the task to the 'Deleted' category (index 2).
@@ -66,7 +69,7 @@ class LocalStorageDataBase implements HomeRepo {
 
   @override
   Future<void> doneTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   }) async {
@@ -78,6 +81,9 @@ class LocalStorageDataBase implements HomeRepo {
         .map((e) =>
             TaskCategoryModel.fromJson(Map<String, dynamic>.from(e as Map)))
         .toList();
+
+    int categoryIndex =
+        categories.indexWhere((element) => element.category == category);
 
     // Remove the task from the specified category.
     categories[categoryIndex].data.removeAt(taskIndex);
@@ -124,7 +130,7 @@ class LocalStorageDataBase implements HomeRepo {
 
   @override
   Future<void> updateTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   }) async {
@@ -137,6 +143,8 @@ class LocalStorageDataBase implements HomeRepo {
             TaskCategoryModel.fromJson(Map<String, dynamic>.from(e as Map)))
         .toList();
 
+    int categoryIndex =
+        categories.indexWhere((element) => element.category == category);
     // Remove the task from the specified category.
     categories[categoryIndex].data.removeAt(taskIndex);
 

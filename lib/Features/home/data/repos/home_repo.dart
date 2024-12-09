@@ -5,18 +5,18 @@ abstract class HomeRepo {
   Future<List<TaskCategoryModel>> getCategories();
   Future<void> addToDo({required TaskModel taskModel});
   Future<void> deleteTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   });
   Future<void> doneTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   });
 
   Future<void> updateTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   });

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "533779457223",
+    "project_id": "habithub-660dc",
+    "storage_bucket": "habithub-660dc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533779457223:android:220a01bc2882c4ea7d0ae2",
+        "android_client_info": {
+          "package_name": "com.example.todo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3qMlrFQiDHAMpHtu_P4mw2gm9MkShIiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

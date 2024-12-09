@@ -9,13 +9,13 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
   HomeRepo homeRepo;
 
   Future<void> updateTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel task,
   }) async {
     try {
       await homeRepo.updateTask(
-        categoryIndex: categoryIndex,
+        category: category,
         taskIndex: taskIndex,
         taskModel: task,
       );

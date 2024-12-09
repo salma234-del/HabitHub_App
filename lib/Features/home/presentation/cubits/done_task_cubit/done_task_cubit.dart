@@ -10,13 +10,13 @@ class DoneTaskCubit extends Cubit<DoneTaskState> {
   HomeRepo homeRepo;
 
   Future<void> doneTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel task,
   }) async {
     try {
       await homeRepo.doneTask(
-        categoryIndex: categoryIndex,
+        category: category,
         taskIndex: taskIndex,
         taskModel: task,
       );

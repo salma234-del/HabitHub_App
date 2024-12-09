@@ -61,29 +61,35 @@ class LocalVariablesDatabase implements HomeRepo {
   @override
   Future<void> deleteTask({
     required TaskModel taskModel,
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
   }) async {
+    int categoryIndex =
+        categoriesList.indexWhere((element) => element.category == category);
     categoriesList[categoryIndex].data.removeAt(taskIndex);
     categoriesList[2].data.add(taskModel);
   }
 
   @override
   Future<void> doneTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   }) async {
+    int categoryIndex =
+        categoriesList.indexWhere((element) => element.category == category);
     categoriesList[categoryIndex].data.removeAt(taskIndex);
     categoriesList[1].data.add(taskModel);
   }
 
   @override
   Future<void> updateTask({
-    required int categoryIndex,
+    required String category,
     required int taskIndex,
     required TaskModel taskModel,
   }) async {
+    int categoryIndex =
+        categoriesList.indexWhere((element) => element.category == category);
     categoriesList[categoryIndex].data.removeAt(taskIndex);
     categoriesList[0].data.add(taskModel);
   }

@@ -14,6 +14,8 @@ class TaskModel {
   final String date;
   @HiveField(4)
   final String time;
+  @HiveField(5)
+  final String id;
 
   TaskModel({
     required this.title,
@@ -21,15 +23,17 @@ class TaskModel {
     required this.color,
     required this.date,
     required this.time,
+    required this.id,
   });
 
-  factory TaskModel.fromJson(Map<String, dynamic> json) {
+  factory TaskModel.fromJson(json) {
     return TaskModel(
       title: json['title'],
       body: json['body'],
       color: Color(int.parse(json['color'])),
       date: json['date'],
       time: json['time'],
+      id: json['id'],
     );
   }
 
@@ -40,6 +44,7 @@ class TaskModel {
       'color': color.value.toString(),
       'date': date,
       'time': time,
+      'id': id,
     };
   }
 }

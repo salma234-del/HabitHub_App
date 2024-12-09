@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/Core/utils/constants.dart';
 import 'package:todo/Core/utils/global/theme/app_color/app_color.dart';
 import 'package:todo/Core/utils/text_styles.dart';
 import 'package:todo/Features/home/data/models/task_model.dart';
@@ -14,14 +15,14 @@ class TaskItem extends StatelessWidget {
   const TaskItem({
     required this.task,
     required this.index,
-    required this.categoryIndex,
+    required this.category,
     required this.onDismissed,
     super.key,
   });
 
   final TaskModel task;
   final int index;
-  final int categoryIndex;
+  final String category;
   final VoidCallback onDismissed;
 
   @override
@@ -74,25 +75,25 @@ class TaskItem extends StatelessWidget {
       child: Dismissible(
         key: Key(index.toString()),
         onDismissed: (direction) async {
-          if (categoryIndex == 0) {
+          if (category == toDoCategory) {
             if (direction == DismissDirection.startToEnd) {
               // delete task
               await BlocProvider.of<DeleteTaskCubit>(context).deleteTask(
-                categoryIndex: categoryIndex,
+                category: category,
                 taskIndex: index,
                 task: task,
               );
             } else {
               // done task
               await BlocProvider.of<DoneTaskCubit>(context).doneTask(
-                categoryIndex: categoryIndex,
+                category: category,
                 taskIndex: index,
                 task: task,
               );
             }
           } else {
             await BlocProvider.of<UpdateTaskCubit>(context).updateTask(
-              categoryIndex: categoryIndex,
+              category: category,
               taskIndex: index,
               task: task,
             );
@@ -100,8 +101,8 @@ class TaskItem extends StatelessWidget {
           onDismissed();
         },
         confirmDismiss: (direction) async {
-          if (categoryIndex == 3) {
-            // Prevent dismissal for categoryIndex == 3
+          if (category == allCategory) {
+            // Prevent dismissal for category == 3
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                   content: Text('Cannot dismiss tasks in this category.')),
@@ -115,12 +116,12 @@ class TaskItem extends StatelessWidget {
           child: Align(
             alignment: AlignmentDirectional.centerStart,
             child: Icon(
-              categoryIndex == 0 ? Icons.delete : Icons.check_circle,
+              category == toDoCategory ? Icons.delete : Icons.check_circle,
               color: AppColor.whiteColor,
             ),
           ),
         ),
-        secondaryBackground: categoryIndex == 0
+        secondaryBackground: category == toDoCategory
             ? Container(
                 color: Colors.green,
                 child: const Align(

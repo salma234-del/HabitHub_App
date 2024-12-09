@@ -13,6 +13,7 @@ import 'package:todo/Features/add_task/presentation/screens/widgets/color_circle
 import 'package:todo/Features/home/data/models/task_model.dart';
 import 'package:todo/Features/home/presentation/cubits/add_task/add_task_cubit.dart';
 import 'package:todo/Features/home/presentation/cubits/add_task/add_task_state.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -145,6 +146,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     color: selectedColor!,
                                     date: dateController.text,
                                     time: timeController.text,
+                                    id: const Uuid().v4(),
                                   ),
                                 );
                                 setState(() {

@@ -22,6 +22,7 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       color: fields[2] as Color,
       date: fields[3] as String,
       time: fields[4] as String,
+      id: fields[5] as String,
     );
   }
 

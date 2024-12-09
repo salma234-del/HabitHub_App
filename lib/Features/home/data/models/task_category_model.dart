@@ -14,7 +14,7 @@ class TaskCategoryModel {
     required this.data,
   });
 
-  factory TaskCategoryModel.fromJson(Map<String, dynamic> json) {
+  factory TaskCategoryModel.fromJson(json) {
     return TaskCategoryModel(
       category: json['category'],
       data: (json['data'] as List)
