@@ -102,7 +102,6 @@ class LocalStorageDataBase implements HomeRepo {
   Future<List<TaskCategoryModel>> getCategories() async {
     // Retrieve the stored list from Hive.
     List<dynamic>? storedCategories = _box.get(tasksCategoriesBox);
-
     // Default categories to initialize if none exist.
     List<TaskCategoryModel> defaultCategories = [
       TaskCategoryModel(category: 'ToDo', data: []),
@@ -117,6 +116,7 @@ class LocalStorageDataBase implements HomeRepo {
         tasksCategoriesBox,
         defaultCategories.map((e) => e.toJson()).toList(),
       );
+
       return defaultCategories;
     } else {
       // Deserialize each element of the stored data into TaskCategoryModel.
@@ -150,6 +150,40 @@ class LocalStorageDataBase implements HomeRepo {
 
     // Add the task to the 'ToDo' category (index 2).
     categories[0].data.add(taskModel);
+
+    // Serialize the updated list back into JSON and save it to Hive.
+    await _box.put(
+      tasksCategoriesBox,
+      categories.map((e) => e.toJson()).toList(),
+    );
+  }
+
+  @override
+  Future<void> editTask({
+    required int taskIndex,
+    required TaskModel taskModel,
+  }) async {
+    // Retrieve stored categories from Hive.
+    List<dynamic>? storedCategories = _box.get(tasksCategoriesBox) ?? [];
+
+    // Deserialize stored categories into a list of TaskCategoryModel.
+    List<TaskCategoryModel> categories = storedCategories!
+        .map((e) =>
+            TaskCategoryModel.fromJson(Map<String, dynamic>.from(e as Map)))
+        .toList();
+
+    int categoryIndex =
+        categories.indexWhere((element) => element.category == toDoCategory);
+
+    int allCategoryIndex =
+        categories.indexWhere((element) => element.category == allCategory);
+    // Remove the task from the specified category.
+    categories[categoryIndex].data.removeAt(taskIndex);
+    categories[allCategoryIndex].data.removeAt(taskIndex);
+
+    // Add the task to the 'ToDo' category (index 2).
+    categories[0].data.add(taskModel);
+    categories[3].data.add(taskModel);
 
     // Serialize the updated list back into JSON and save it to Hive.
     await _box.put(

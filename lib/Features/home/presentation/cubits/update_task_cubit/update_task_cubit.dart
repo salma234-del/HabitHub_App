@@ -13,13 +13,13 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
     required int taskIndex,
     required TaskModel task,
   }) async {
+    emit(UpdateTaskLoading());
     try {
       await homeRepo.updateTask(
         category: category,
         taskIndex: taskIndex,
         taskModel: task,
       );
-
       emit(UpdateTaskSuccess());
     } catch (e) {
       emit(UpdateTaskError(message: e.toString()));

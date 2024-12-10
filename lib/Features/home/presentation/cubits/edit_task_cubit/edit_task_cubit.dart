@@ -1,29 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/Features/home/data/models/task_model.dart';
 import 'package:todo/Features/home/data/repos/home_repo.dart';
+import 'package:todo/Features/home/presentation/cubits/edit_task_cubit/edit_task_state.dart';
 
-import 'done_task_state.dart';
-
-class DoneTaskCubit extends Cubit<DoneTaskState> {
-  DoneTaskCubit(this.homeRepo) : super(DoneTaskInitial());
+class EditTaskCubit extends Cubit<EditTaskState> {
+  EditTaskCubit(this.homeRepo) : super(EditTaskInitial());
 
   HomeRepo homeRepo;
 
-  Future<void> doneTask({
-    required String category,
+  Future<void> editTask({
     required int taskIndex,
     required TaskModel task,
   }) async {
-    emit(DoneTaskLoading());
+    emit(EditTaskLoading());
     try {
-      await homeRepo.doneTask(
-        category: category,
+      await homeRepo.editTask(
         taskIndex: taskIndex,
         taskModel: task,
       );
-      emit(DoneTaskSuccess());
+      emit(EditTaskSuccess());
     } catch (e) {
-      emit(DoneTaskError(message: e.toString()));
+      emit(EditTaskError(message: e.toString()));
     }
   }
 }

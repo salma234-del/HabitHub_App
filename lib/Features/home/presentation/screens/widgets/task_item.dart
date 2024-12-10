@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo/Core/utils/app_router.dart';
 import 'package:todo/Core/utils/constants.dart';
 import 'package:todo/Core/utils/global/theme/app_color/app_color.dart';
 import 'package:todo/Core/utils/text_styles.dart';
@@ -72,67 +75,97 @@ class TaskItem extends StatelessWidget {
           },
         ),
       ],
-      child: Dismissible(
+      child: Slidable(
         key: Key(index.toString()),
-        onDismissed: (direction) async {
-          if (category == toDoCategory) {
-            if (direction == DismissDirection.startToEnd) {
-              // delete task
-              await BlocProvider.of<DeleteTaskCubit>(context).deleteTask(
-                category: category,
-                taskIndex: index,
-                task: task,
-              );
-            } else {
-              // done task
-              await BlocProvider.of<DoneTaskCubit>(context).doneTask(
-                category: category,
-                taskIndex: index,
-                task: task,
-              );
-            }
-          } else {
-            await BlocProvider.of<UpdateTaskCubit>(context).updateTask(
-              category: category,
-              taskIndex: index,
-              task: task,
-            );
-          }
-          onDismissed();
-        },
-        confirmDismiss: (direction) async {
-          if (category == allCategory) {
-            // Prevent dismissal for category == 3
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text('Cannot dismiss tasks in this category.')),
-            );
-            return false;
-          }
-          return true;
-        },
-        background: Container(
-          color: Colors.red,
-          child: Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: Icon(
-              category == toDoCategory ? Icons.delete : Icons.check_circle,
-              color: AppColor.whiteColor,
-            ),
-          ),
-        ),
-        secondaryBackground: category == toDoCategory
-            ? Container(
-                color: Colors.green,
-                child: const Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: Icon(
-                    Icons.check_box,
-                    color: AppColor.whiteColor,
+        startActionPane: category == toDoCategory
+            ? ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) {
+                      GoRouter.of(context).push(AppRouter.addTask, extra: {
+                        'task': task,
+                        'taskIndex': index,
+                      });
+                    },
+                    icon: Icons.edit,
+                    foregroundColor: AppColor.whiteColor,
+                    backgroundColor: Colors.blue,
+                    label: 'Edit',
                   ),
-                ),
+                ],
               )
             : null,
+        endActionPane: category == allCategory
+            ? null
+            : ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  if (category == toDoCategory) ...[
+                    SlidableAction(
+                      onPressed: (context) async {
+                        await BlocProvider.of<DoneTaskCubit>(context).doneTask(
+                          category: category,
+                          taskIndex: index,
+                          task: task,
+                        );
+                        onDismissed();
+                      },
+                      icon: Icons.check_circle,
+                      foregroundColor: AppColor.whiteColor,
+                      backgroundColor: Colors.green,
+                      label: 'Done',
+                    ),
+                    SlidableAction(
+                      onPressed: (context) async {
+                        await BlocProvider.of<DeleteTaskCubit>(context)
+                            .deleteTask(
+                          category: category,
+                          taskIndex: index,
+                          task: task,
+                        );
+                        onDismissed();
+                      },
+                      icon: Icons.delete,
+                      foregroundColor: AppColor.whiteColor,
+                      backgroundColor: Colors.red,
+                      label: 'Delete',
+                    ),
+                  ],
+                  if (category == doneCategory)
+                    SlidableAction(
+                      onPressed: (context) async {
+                        await BlocProvider.of<UpdateTaskCubit>(context)
+                            .updateTask(
+                          category: category,
+                          taskIndex: index,
+                          task: task,
+                        );
+                        onDismissed();
+                      },
+                      icon: Icons.undo,
+                      foregroundColor: AppColor.whiteColor,
+                      backgroundColor: Colors.blue,
+                      label: 'Undo',
+                    ),
+                  if (category == deletedCategory)
+                    SlidableAction(
+                      onPressed: (context) async {
+                        await BlocProvider.of<UpdateTaskCubit>(context)
+                            .updateTask(
+                          category: category,
+                          taskIndex: index,
+                          task: task,
+                        );
+                        onDismissed();
+                      },
+                      icon: Icons.restore_from_trash,
+                      foregroundColor: AppColor.whiteColor,
+                      backgroundColor: Colors.blue,
+                      label: 'Restore',
+                    ),
+                ],
+              ),
         child: Container(
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(

@@ -76,7 +76,8 @@ class _HomeTasksSectionState extends State<HomeTasksSection> {
                             itemBuilder: (context, index) => TaskItem(
                               task: state.categories[selectedIndex].data[index],
                               index: index,
-                              category: state.categories[selectedIndex].category,
+                              category:
+                                  state.categories[selectedIndex].category,
                               onDismissed: () {
                                 cubit.getCategories(category: selectedIndex);
                               },

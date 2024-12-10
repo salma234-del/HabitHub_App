@@ -121,4 +121,50 @@ class FirebaseFirestoreDatabase implements HomeRepo {
       taskModel,
     );
   }
+
+  @override
+  Future<void> editTask({
+    required int taskIndex,
+    required TaskModel taskModel,
+  }) async {
+    // Get ToDo category
+    QuerySnapshot<Object?> firestoreCategoryDocument =
+        await _tasksCategoriesService.getCategoryDocument(
+      categryName: toDoCategory,
+    );
+
+    DocumentReference categoryRef = firestoreCategoryDocument.docs[0].reference;
+
+    // Fetch the existing data
+    DocumentSnapshot categorySnapshot = await categoryRef.get();
+    List<dynamic> existingTasks = categorySnapshot['data'] ?? [];
+
+    // Find the task by ID
+    String taskId = taskModel.id; // Ensure `taskModel` has an `id` field
+    int taskIndex = existingTasks.indexWhere((task) => task['id'] == taskId);
+
+    existingTasks[taskIndex] = taskModel.toJson();
+    await categoryRef.update({'data': existingTasks});
+
+    // all category
+
+    // Get ToDo category
+    QuerySnapshot<Object?> firestoreCategoryDocument2 =
+        await _tasksCategoriesService.getCategoryDocument(
+      categryName: allCategory,
+    );
+
+    DocumentReference allCategoryRef =
+        firestoreCategoryDocument2.docs[0].reference;
+
+    // Fetch the existing data
+    DocumentSnapshot categorySnapshot2 = await allCategoryRef.get();
+    List<dynamic> existingTasks2 = categorySnapshot2['data'] ?? [];
+
+    // Find the task by ID
+    int taskIndex2 = existingTasks2.indexWhere((task) => task['id'] == taskId);
+
+    existingTasks2[taskIndex2] = taskModel.toJson();
+    await allCategoryRef.update({'data': existingTasks2});
+  }
 }

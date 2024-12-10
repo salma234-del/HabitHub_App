@@ -20,4 +20,8 @@ abstract class HomeRepo {
     required int taskIndex,
     required TaskModel taskModel,
   });
+  Future<void> editTask({
+    required int taskIndex,
+    required TaskModel taskModel,
+  });
 }

@@ -13,9 +13,10 @@ class DeleteTaskCubit extends Cubit<DeleteTaskState> {
     required int taskIndex,
     required TaskModel task,
   }) async {
+    emit(DeleteTaskLoading());
     try {
       await homeRepo.deleteTask(
-      category: category,
+        category: category,
         taskIndex: taskIndex,
         taskModel: task,
       );

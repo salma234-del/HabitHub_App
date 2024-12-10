@@ -93,4 +93,15 @@ class LocalVariablesDatabase implements HomeRepo {
     categoriesList[categoryIndex].data.removeAt(taskIndex);
     categoriesList[0].data.add(taskModel);
   }
+
+  @override
+  Future<void> editTask({
+    required int taskIndex,
+    required TaskModel taskModel,
+  }) async {
+    categoriesList[0].data.removeAt(taskIndex);
+    categoriesList[0].data.add(taskModel);
+    categoriesList[3].data.removeAt(taskIndex);
+    categoriesList[3].data.add(taskModel);
+  }
 }
