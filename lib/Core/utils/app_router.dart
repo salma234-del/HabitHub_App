@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:todo/Features/add_task/presentation/screens/add_task_screen.dart';
+import 'package:todo/Features/home/data/models/task_model.dart';
 import 'package:todo/Features/layout/presentation/screens/layout_screen.dart';
 import 'package:todo/Features/landing/prsentation/screens/landing_screen.dart';
 import 'package:todo/Features/auth/presentation/screens/login_screen.dart';
@@ -37,9 +38,14 @@ abstract class AppRouter {
         builder: (context, state) => const LayoutScreen(),
       ),
       GoRoute(
-        path: addTask,
-        builder: (context, state) => const AddTaskScreen(),
-      ),
+          path: addTask,
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?; // Nullable cast
+            return AddTaskScreen(
+              task: extra?['task'] as TaskModel?,
+              taskIndex: extra?['taskIndex'] as int?,
+            );
+          }),
     ],
   );
 }

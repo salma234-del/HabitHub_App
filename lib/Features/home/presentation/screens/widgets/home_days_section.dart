@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:todo/Core/utils/app_text.dart';
+import 'package:todo/Core/utils/functions/build_week_days.dart';
 import 'package:todo/Core/utils/global/theme/app_color/app_color.dart';
 import 'package:todo/Core/utils/text_styles.dart';
-import 'package:todo/Features/home/presentation/screens/widgets/day_item.dart';
+import 'package:todo/Features/home/data/models/day_model.dart';
+import 'package:collection/collection.dart';
 
-class HomeDaysSection extends StatelessWidget {
+class HomeDaysSection extends StatefulWidget {
   const HomeDaysSection({
     super.key,
   });
+
+  @override
+  State<HomeDaysSection> createState() => _HomeDaysSectionState();
+}
+
+class _HomeDaysSectionState extends State<HomeDaysSection> {
+  List<DayModel> days = [];
+  int selectedIndex = 0;
+
+  @override
+  void initState() {
+    days = buildWeekDays();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +36,8 @@ class HomeDaysSection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Today',
+          Text(
+            selectedIndex == 0 ? AppText.today : days[selectedIndex].day,
             style: AppTextStyles.text16_500,
           ),
           const SizedBox(height: 8),
@@ -28,53 +45,61 @@ class HomeDaysSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                DayItem(
-                  isActive: false,
-                  day: 'Sun',
-                  date: '12',
-                  onTap: () {},
-                ),
-                DayItem(
-                  isActive: true,
-                  day: 'Mon',
-                  date: '13',
-                  onTap: () {},
-                ),
-                DayItem(
-                  isActive: false,
-                  day: 'Tue',
-                  date: '14',
-                  onTap: () {},
-                ),
-                DayItem(
-                  isActive: false,
-                  day: 'Wed',
-                  date: '15',
-                  onTap: () {},
-                ),
-                DayItem(
-                  isActive: false,
-                  day: 'Thu',
-                  date: '16',
-                  onTap: () {},
-                ),
-                DayItem(
-                  isActive: false,
-                  day: 'Fri',
-                  date: '17',
-                  onTap: () {},
-                ),
-                DayItem(
-                  isActive: false,
-                  day: 'Sat',
-                  date: '18',
-                  onTap: () {},
-                ),
-              ],
+              children: days.mapIndexed((index, day) {
+                return _dayCard(
+                  day: day,
+                  index: index,
+                );
+              }).toList(),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _dayCard({
+    required DayModel day,
+    required int index,
+  }) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          selectedIndex = index;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: selectedIndex == index
+              ? AppColor.purbleColor
+              : AppColor.unselectedDay,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              day.day,
+              style: selectedIndex == index
+                  ? AppTextStyles.text12_700
+                  : AppTextStyles.text12_500,
+            ),
+            const SizedBox(height: 6),
+            CircleAvatar(
+              radius: 15,
+              backgroundColor: AppColor.backgroundColor,
+              child: Text(
+                day.date,
+                style: selectedIndex == index
+                    ? AppTextStyles.text12_700
+                    : AppTextStyles.text12_500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
