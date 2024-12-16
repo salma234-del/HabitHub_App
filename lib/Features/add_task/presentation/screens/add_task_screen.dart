@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo/Core/services/firebase_auth_service.dart';
 import 'package:todo/Core/services/service_locator.dart';
 import 'package:todo/Core/utils/app_router.dart';
 import 'package:todo/Core/utils/app_text.dart';
@@ -11,8 +12,8 @@ import 'package:todo/Core/widgets/custom_text_form_field.dart';
 import 'package:todo/Features/add_task/presentation/screens/widgets/close_icon.dart';
 import 'package:todo/Features/add_task/presentation/screens/widgets/color_circle.dart';
 import 'package:todo/Features/home/data/models/task_model.dart';
-import 'package:todo/Features/home/presentation/cubits/add_task/add_task_cubit.dart';
-import 'package:todo/Features/home/presentation/cubits/add_task/add_task_state.dart';
+import 'package:todo/Features/add_task/cubits/add_task/add_task_cubit.dart';
+import 'package:todo/Features/add_task/cubits/add_task/add_task_state.dart';
 import 'package:todo/Features/home/presentation/cubits/edit_task_cubit/edit_task_cubit.dart';
 import 'package:todo/Features/home/presentation/cubits/edit_task_cubit/edit_task_state.dart';
 import 'package:uuid/uuid.dart';
@@ -200,6 +201,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       date: dateController.text,
                                       time: timeController.text,
                                       id: widget.task!.id,
+                                      userId: widget.task!.userId,
                                     ),
                                   );
                                 } else {
@@ -212,6 +214,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       date: dateController.text,
                                       time: timeController.text,
                                       id: const Uuid().v4(),
+                                      userId: FirebaseAuthService()
+                                          .currentUser!
+                                          .uid,
                                     ),
                                   );
                                 }

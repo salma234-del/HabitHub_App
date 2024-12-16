@@ -21,4 +21,16 @@ abstract class AppText {
   static const String today = 'Today';
   static const String editTask = 'Edit Task';
   static const String edit = 'Edit';
+  static const String register = 'Register';
+  static const String registerTitle = 'Create an account';
+  static const String registerSubtitle =
+      'Welcome! Sign up using your email to continue using our app';
+  static const String fullName = 'Full Name';
+  static const String forgotPassword = 'Forgot Password?';
+  static const String resetPassword = 'Reset Password';
+  static const String resetPasswordTitle = 'Reset your password';
+  static const String resetPasswordSubtitle =
+      'Enter your email to reset your password';
+
+  static const String save = 'Save';
 }

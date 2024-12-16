@@ -10,3 +10,4 @@ const String onboardingBg = '${imagesPath}onboarding_bg.svg';
 const String splashLogo = '${imagesPath}splash_logo.png';
 const String homeNoData = '${imagesPath}home_no_data.png';
 const String star = '${imagesPath}star.png';
+const String emptyProfile = '${imagesPath}empty_profile.jpg';

@@ -4,32 +4,33 @@ import 'package:go_router/go_router.dart';
 import 'package:todo/Core/utils/app_router.dart';
 import 'package:todo/Core/utils/app_text.dart';
 import 'package:todo/Core/widgets/custom_text_form_field.dart';
-import 'package:todo/Features/auth/presentation/cubits/login_cubit/login_cubit.dart';
-import 'package:todo/Features/auth/presentation/cubits/login_cubit/login_state.dart';
+import 'package:todo/Features/auth/presentation/cubits/register_cubit/register_cubit.dart';
+import 'package:todo/Features/auth/presentation/cubits/register_cubit/register_state.dart';
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
+class RegisterForm extends StatelessWidget {
+  const RegisterForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
+    return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
-        if (state is LoginFailure) {
+        if (state is RegisterFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.errorMessage),
               backgroundColor: Colors.red,
             ),
           );
-        } else if (state is LoginSuccess) {
+        } else if (state is RegisterSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Login success!'),
+              content: Text(
+                  'Register success!, please verify your email before login'),
               backgroundColor: Colors.green,
             ),
           );
-          GoRouter.of(context).go(AppRouter.layout);
-        } else if (state is LoginLoading) {
+          GoRouter.of(context).push(AppRouter.login);
+        } else if (state is RegisterLoading) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Loading...'),
@@ -39,12 +40,17 @@ class LoginForm extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        var cubit = BlocProvider.of<LoginCubit>(context);
+        var cubit = BlocProvider.of<RegisterCubit>(context);
         return Form(
           key: cubit.formKey,
           autovalidateMode: cubit.autovalidateMode,
           child: Column(
             children: [
+              CustomTextFormField(
+                hintText: AppText.fullName,
+                controller: cubit.fullNameController,
+              ),
+              const SizedBox(height: 16),
               CustomTextFormField(
                 hintText: AppText.email,
                 controller: cubit.emailController,
@@ -54,25 +60,16 @@ class LoginForm extends StatelessWidget {
                 hintText: AppText.password,
                 controller: cubit.passwordController,
               ),
-              Align(
-                alignment: AlignmentDirectional.topEnd,
-                child: TextButton(
-                  onPressed: () {
-                    GoRouter.of(context).push(AppRouter.resetPassword);
-                  },
-                  child: const Text(AppText.forgotPassword),
-                ),
-              ),
               const SizedBox(height: 81),
               ElevatedButton(
                 onPressed: () {
                   if (cubit.formKey.currentState!.validate()) {
-                    cubit.login();
+                    cubit.register();
                   } else {
                     cubit.autovalidateMode = AutovalidateMode.always;
                   }
                 },
-                child: const Text(AppText.loginButton),
+                child: const Text(AppText.register),
               ),
             ],
           ),

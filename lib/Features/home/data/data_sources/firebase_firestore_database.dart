@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo/Core/services/tasks_categories_firestore_service.dart';
 import 'package:todo/Core/utils/constants.dart';
 import 'package:todo/Features/home/data/models/task_category_model.dart';
@@ -91,6 +92,17 @@ class FirebaseFirestoreDatabase implements HomeRepo {
   Future<List<TaskCategoryModel>> getCategories() async {
     List<TaskCategoryModel> categoriesList =
         await _tasksCategoriesService.getAllCategories();
+
+    // filter categories tasks by userId
+    for (var category in categoriesList) {
+      for (int i = 0; i < category.data.length; i++) {
+        if (category.data[i].userId != FirebaseAuth.instance.currentUser!.uid) {
+          category.data.removeAt(i);
+        }
+      }
+    }
+
+    // return the filtered categories tasks
     return categoriesList;
   }
 

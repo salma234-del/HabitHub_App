@@ -16,6 +16,8 @@ class TaskModel {
   final String time;
   @HiveField(5)
   final String id;
+  @HiveField(6)
+  final String userId;
 
   TaskModel({
     required this.title,
@@ -24,6 +26,7 @@ class TaskModel {
     required this.date,
     required this.time,
     required this.id,
+    required this.userId,
   });
 
   factory TaskModel.fromJson(json) {
@@ -34,6 +37,7 @@ class TaskModel {
       date: json['date'],
       time: json['time'],
       id: json['id'],
+      userId: json['userId'],
     );
   }
 
@@ -45,6 +49,7 @@ class TaskModel {
       'date': date,
       'time': time,
       'id': id,
+      'userId': userId,
     };
   }
 }

@@ -7,3 +7,4 @@ const String toDoCategory = 'ToDo';
 const String allCategory = 'All';
 const String doneCategory = 'Done';
 const String deletedCategory = 'Deleted';
+const String usersCollection = 'Users';

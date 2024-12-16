@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:todo/Core/utils/app_router.dart';
 import 'package:todo/Core/utils/icons.dart';
 import 'package:todo/Core/utils/text_styles.dart';
-import 'package:todo/Core/widgets/or_divider.dart';
-import 'package:todo/Core/widgets/social_login.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -49,7 +47,9 @@ class LandingScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 Center(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      GoRouter.of(context).push(AppRouter.register);
+                    },
                     child: Text(
                       'Create an account',
                       style: AppTextStyles.bodySmall.copyWith(
@@ -61,11 +61,11 @@ class LandingScreen extends StatelessWidget {
                 const SizedBox(
                   height: 28,
                 ),
-                const ORDivider(),
-                const SizedBox(
-                  height: 20,
-                ),
-                const SocialLogin(),
+                // const ORDivider(),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // const SocialLogin(),
               ],
             ),
           )

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/Features/home/data/models/task_model.dart';
 import 'package:todo/Features/home/data/repos/home_repo.dart';
-import 'package:todo/Features/home/presentation/cubits/add_task/add_task_state.dart';
+import 'package:todo/Features/add_task/cubits/add_task/add_task_state.dart';
 
 class AddTaskCubit extends Cubit<AddTaskState> {
   AddTaskCubit(

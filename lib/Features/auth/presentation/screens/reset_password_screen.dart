@@ -5,16 +5,16 @@ import 'package:todo/Core/services/service_locator.dart';
 import 'package:todo/Core/utils/app_text.dart';
 import 'package:todo/Core/utils/icons.dart';
 import 'package:todo/Core/utils/text_styles.dart';
-import 'package:todo/Features/auth/presentation/cubits/login_cubit/login_cubit.dart';
-import 'package:todo/Features/auth/presentation/screens/widgets/login_form.dart';
+import 'package:todo/Features/auth/presentation/cubits/forget_pass_cubit/reset_pass_cubit.dart';
+import 'package:todo/Features/auth/presentation/screens/widgets/reset_password_form.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(sl()),
+      create: (context) => ResetPassCubit(sl()),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -33,24 +33,20 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: 100),
                     Text(
-                      AppText.loginTitle,
+                      AppText.resetPasswordSubtitle,
                       style: AppTextStyles.text18_700,
                     ),
                     SizedBox(height: 19),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25),
                       child: Text(
-                        AppText.loginSubtitle,
+                        AppText.resetPasswordSubtitle,
                         style: AppTextStyles.text14_300,
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(height: 32),
-                    // SocialLogin(),
-                    SizedBox(height: 30),
-                    // // ORDivider(),
-                    // SizedBox(height: 90),
-                    LoginForm(),
+                    SizedBox(height: 70),
+                    ResetPasswordForm(),
                   ],
                 ),
               ),
